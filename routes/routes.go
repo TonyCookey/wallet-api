@@ -13,6 +13,8 @@ func InitializeRoutes() {
 	{
 		v1.GET("/ping", controllers.Ping)
 		v1.GET("/wallets/:wallet_id/balance", controllers.GetWalletBalance)
+		v1.POST("/wallets/:wallet_id/credit", controllers.CreditWallet)
+		v1.POST("/wallets/:wallet_id/debit", controllers.DebitWallet)
 
 	}
 	router.NoRoute(noRoute)
