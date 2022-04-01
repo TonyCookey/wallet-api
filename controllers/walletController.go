@@ -154,7 +154,9 @@ func DebitWallet(c *gin.Context) {
 		c.JSON(400, gin.H{
 			"message": "Wallet ID was not supplied",
 		})
+		return
 	}
+
 	body := Body{}
 
 	// extract the amount from the request body
