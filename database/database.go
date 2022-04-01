@@ -4,6 +4,7 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"wallet-api/models"
+	"wallet-api/utils"
 )
 
 var DB *gorm.DB
@@ -16,25 +17,24 @@ func ConnectDB(databaseURL string) {
 		panic(err)
 	}
 	// Migrate the Models
-	err = DB.AutoMigrate(&models.User{}, &models.Wallet{})
+	err = DB.AutoMigrate(&models.Player{}, &models.Wallet{})
 	if err != nil {
 		panic(err)
 	}
 
-	// Seed data into the database
-	seedUsers()
-	seedWallets()
 }
 
-func seedUsers() {
-	users := []models.User{{
+func SeedPlayers() {
+	users := []models.Player{{
 		FirstName:    "Tony",
 		LastName:     "Cookey",
 		EmailAddress: "tony@example.com",
+		Password:     utils.HashPassword("password123"),
 	}, {
-		FirstName:    "Tonero",
-		LastName:     "Cookey",
-		EmailAddress: "tonero@example.com",
+		FirstName:    "Chris",
+		LastName:     "Ronney",
+		EmailAddress: "chris@example.com",
+		Password:     utils.HashPassword("password123"),
 	}}
 
 	result := DB.Create(&users)
@@ -42,13 +42,13 @@ func seedUsers() {
 		panic(result.Error)
 	}
 }
-func seedWallets() {
+func SeedWallets() {
 	wallets := []models.Wallet{{
-		UserID:  1,
-		Balance: 1000,
+		PlayerID: 1,
+		Balance:  1000,
 	}, {
-		UserID:  2,
-		Balance: 900,
+		PlayerID: 2,
+		Balance:  900,
 	}}
 
 	result := DB.Create(&wallets)

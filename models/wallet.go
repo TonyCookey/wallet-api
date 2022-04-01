@@ -4,7 +4,7 @@ import "gorm.io/gorm"
 
 type Wallet struct {
 	gorm.Model
-	UserID  uint
-	User    User
-	Balance float64
+	PlayerID uint
+	Player   Player
+	Balance  float64
 }
