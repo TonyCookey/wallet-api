@@ -2,19 +2,21 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
+	ginlogrus "github.com/toorop/gin-logrus"
 	"wallet-api/controllers"
 	"wallet-api/middleware"
 )
 
 func InitializeRoutes() {
-	//var loginService services.LoginService = services.StaticLoginService()
-	//var jwtService services.JWTService = services.JWTAuthService()
-	//var loginController controllers.LoginController = controllers.LoginHandler(loginService, jwtService)
+	server := gin.New()
 
-	router := gin.Default()
+	// use sirupsen logger with gin
+	log := logrus.New()
+	server.Use(ginlogrus.Logger(log), gin.Recovery())
 
 	// define api v1 routes
-	api := router.Group("api/v1")
+	api := server.Group("api/v1")
 	{
 		api.GET("/ping", controllers.Ping)
 		api.GET("/seed", controllers.SeedDB)
@@ -30,10 +32,10 @@ func InitializeRoutes() {
 		wallet.POST("/:wallet_id/credit", controllers.CreditWallet)
 		wallet.POST("/:wallet_id/debit", controllers.DebitWallet)
 	}
-	router.NoRoute(noRoute)
+	server.NoRoute(noRoute)
 
 	// listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
-	err := router.Run()
+	err := server.Run()
 	if err != nil {
 		panic(err)
 	}
