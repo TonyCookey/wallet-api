@@ -20,6 +20,11 @@ func main() {
 	database.InitializeRedisInstance(os.Getenv("REDIS_URL"), os.Getenv("REDIS_PASSWORD"), 0)
 
 	// initialize api routes
-	routes.InitializeRoutes()
+	server := routes.InitializeRoutes()
+	// listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	err = server.Run()
+	if err != nil {
+		panic(err)
+	}
 
 }

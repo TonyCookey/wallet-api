@@ -8,7 +8,7 @@ import (
 	"wallet-api/middleware"
 )
 
-func InitializeRoutes() {
+func InitializeRoutes() *gin.Engine {
 	server := gin.New()
 
 	// use sirupsen logger with gin
@@ -34,11 +34,7 @@ func InitializeRoutes() {
 	}
 	server.NoRoute(noRoute)
 
-	// listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
-	err := server.Run()
-	if err != nil {
-		panic(err)
-	}
+	return server
 }
 func noRoute(c *gin.Context) {
 	c.JSON(404, gin.H{"message": "Route not found"})

@@ -1,12 +1,12 @@
 package database
 
 import (
-	"os"
 	"testing"
 )
 
 func TestConnectMySQL(t *testing.T) {
-	ConnectDB(os.Getenv("DATABASE_URL"))
+
+	ConnectDB("root:root@tcp(127.0.0.1:3306)/test-wallet-api?charset=utf8mb4&parseTime=True&loc=Local")
 
 	db, err := DB.DB()
 	if err != nil {
